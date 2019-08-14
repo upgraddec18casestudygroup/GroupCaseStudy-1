@@ -11,9 +11,8 @@ import org.springframework.context.annotation.Import;
  */
 @SpringBootApplication
 @Import(ServiceConfiguration.class)
-public class QuoraApiApplication {
+public class quoraApiApplication {
     public static void main(String[] args) {
-        SpringApplication.run(QuoraApiApplication.class, args);
+        SpringApplication.run(quoraApiApplication.class, args);
     }
 }
-
