@@ -65,10 +65,12 @@ public class UserAuthTokenEntity implements Serializable {
     public UserEntity getUser() {
         return user;
     }
-
     public void setUser(UserEntity user) {
         this.user = user;
     }
+
+    public String getUuid() { return uuid; }
+    public void setUuid(String uuid) {this.uuid = uuid;}
 
     public String getAccessToken() {
         return accessToken;
