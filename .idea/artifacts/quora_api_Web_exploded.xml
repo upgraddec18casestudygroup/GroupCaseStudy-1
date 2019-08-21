@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="quora-api:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/quora_api_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="quora-api/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="quora-api" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
