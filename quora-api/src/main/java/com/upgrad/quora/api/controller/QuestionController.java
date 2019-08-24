@@ -1,4 +1,4 @@
-package com.upgrad.quora.api.controller;
+package com.upgrad.quora.api.Controller;
 
 
 import com.upgrad.quora.api.model.*;
@@ -6,10 +6,10 @@ import com.upgrad.quora.service.business.AuthenticationService;
 import com.upgrad.quora.service.business.AuthorizationService;
 import com.upgrad.quora.service.business.QuestionBusinessService;
 import com.upgrad.quora.service.business.QuestionBusinessService;
-import com.upgrad.quora.service.dao.UsersDao;
+import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
-import com.upgrad.quora.service.entity.UsersEntity;
+import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
@@ -28,7 +28,7 @@ import java.util.UUID;
 @RequestMapping("/")
 public class QuestionController {
     @Autowired
-    private UsersDao userDao;
+    private UserDao userDao;
     @Autowired
     private AuthorizationService authorizationService;
 
@@ -107,7 +107,7 @@ public ResponseEntity<QuestionResponse> createQuestion(@RequestHeader("accessTok
         UserAuthTokenEntity userAuthTokenEntity = authorizationService.verifyAuthToken(bearerToken[1],"delete");
         QuestionEntity questionEntityToDelete = questionBusinessService.getQuestionbyQUuid(questionUuid, bearerToken[1],"delete");
 
-        UsersEntity signedinUserEntity =userDao.getUserByUuid(userAuthTokenEntity.getUuid());
+        UserEntity signedinUserEntity =userDao.getUserByUuid(userAuthTokenEntity.getUuid());
         final String Uuid = questionBusinessService.deleteQuestion(questionEntityToDelete,signedinUserEntity);
 
         QuestionDeleteResponse questionDeleteResponse = new QuestionDeleteResponse().id(Uuid).status("QUESTION DELETED");

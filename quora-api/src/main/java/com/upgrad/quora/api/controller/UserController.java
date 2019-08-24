@@ -1,4 +1,4 @@
-package com.upgrad.quora.api.controller;
+package com.upgrad.quora.api.Controller;
 
 import com.upgrad.quora.api.model.SigninResponse;
 import com.upgrad.quora.api.model.SignoutResponse;
@@ -8,7 +8,7 @@ import com.upgrad.quora.service.business.AuthenticationService;
 import com.upgrad.quora.service.business.SignOutBusinessService;
 import com.upgrad.quora.service.business.SignupBusinessService;
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
-import com.upgrad.quora.service.entity.UsersEntity;
+import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthenticationFailedException;
 import com.upgrad.quora.service.exception.SignOutRestrictedException;
 import com.upgrad.quora.service.exception.SignUpRestrictedException;
@@ -39,7 +39,7 @@ public class UserController {
                     produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 
     public ResponseEntity<SignupUserResponse> signup(final SignupUserRequest signupUserRequest) throws SignUpRestrictedException {
-        UsersEntity userEntity = new UsersEntity();
+        UserEntity userEntity = new UserEntity();
         userEntity.setUuid(UUID.randomUUID().toString());
         userEntity.setFirstName(signupUserRequest.getFirstName());
         userEntity.setLastName(signupUserRequest.getLastName());
@@ -50,9 +50,8 @@ public class UserController {
         userEntity.setCountry(signupUserRequest.getCountry());
         userEntity.setAboutme(signupUserRequest.getAboutMe());
         userEntity.setDOB(signupUserRequest.getDob());
-        userEntity.setContactnumber(signupUserRequest.getContactNumber());
         userEntity.setRole("nonadmin");
-        final UsersEntity createdUserEntity = signupBusinessService.signup(userEntity);
+        final UserEntity createdUserEntity = signupBusinessService.signup(userEntity);
         SignupUserResponse userResponse=new SignupUserResponse().id(createdUserEntity.getUuid()).status("REGISTERED");
 
        return new ResponseEntity<SignupUserResponse>(userResponse, HttpStatus.CREATED);
@@ -84,7 +83,7 @@ public class UserController {
             throws SignOutRestrictedException {
 
         String[] bearerToken=accessToken.split("Bearer ");
-        UsersEntity signedoutUserEntity=signOutBusinessService.signout(bearerToken[1]);
+        UserEntity signedoutUserEntity=signOutBusinessService.signout(bearerToken[1]);
         SignoutResponse signoutResponse=new SignoutResponse();
         signoutResponse.setMessage("SIGNED OUT SUCCESSFULLY");
         signoutResponse.setId(signedoutUserEntity.getUuid());
