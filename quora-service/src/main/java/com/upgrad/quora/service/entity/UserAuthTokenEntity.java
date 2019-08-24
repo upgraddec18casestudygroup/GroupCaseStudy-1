@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,9 +14,10 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "user_auth_tokens", schema = "proman")
+@Table(name = "user_auth_tokens")
 @NamedQueries({
-        @NamedQuery(name = "userAuthTokenByAccessToken" , query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken ")
+        @NamedQuery(name = "userAuthTokenByAccessToken" , query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
+        @NamedQuery(name="userAuthTokenByUuid",query="select ut from UserAuthTokenEntity ut where ut.uuid = :uuid")
 })
 public class UserAuthTokenEntity implements Serializable {
 
@@ -25,12 +28,14 @@ public class UserAuthTokenEntity implements Serializable {
     private Integer id;
 
     @Column(name = "UUID")
+    @NotNull
     @Size(max = 200)
     private String uuid;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
-    private UserEntity user;
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private UsersEntity user;
 
     @Column(name = "ACCESS_TOKEN")
     @NotNull
@@ -49,8 +54,6 @@ public class UserAuthTokenEntity implements Serializable {
     private ZonedDateTime logoutAt;
 
 
-
-
     public Integer getId() {
         return id;
     }
@@ -59,13 +62,15 @@ public class UserAuthTokenEntity implements Serializable {
         this.id = id;
     }
 
-    public UserEntity getUser() {
+    public UsersEntity getUser() {
         return user;
     }
-
-    public void setUser(UserEntity user) {
+    public void setUser(UsersEntity user) {
         this.user = user;
     }
+
+    public String getUuid() { return uuid; }
+    public void setUuid(String uuid) {this.uuid = uuid;}
 
     public String getAccessToken() {
         return accessToken;
