@@ -18,6 +18,8 @@ public class SwaggerConfiguration {
 
     @Bean
     public Docket swagger() {
-        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("com.upgrad.quora.api.controller")).paths(PathSelectors.any()).build();
+        return new Docket(DocumentationType.SWAGGER_2).select()
+                  .apis(RequestHandlerSelectors.basePackage("com.upgrad.quora.api.controller"))
+                  .paths(PathSelectors.any()).build();
     }
 }
